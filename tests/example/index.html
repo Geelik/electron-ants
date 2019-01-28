@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Electron-ants</title>
+</head>
+<body>
+	<button id="FibonacciNormal">Run FibonacciNormal</button>
+	<button id="FibonacciInterval">Run FibonacciInterval</button>
+	<button id="FibonacciTimeout">Run FibonacciTimeout</button>
+<script>
+	const Ant = require('../../src/index');
+
+	const buttons = document.querySelectorAll('button');
+	for (let i = 0; i < buttons.length; i++) {
+		let button = buttons[i];
+		let task = button.id;
+
+		button.addEventListener('click', function(){
+			//If you set debug at true, the worker's window will not close automatically even if you close your main window
+			Ant.Worker.create(`./tasks/${task}.js`, true).then((worker) => {
+				console.log(`"${task}" is ready`);
+
+				worker.onUpdate((payload) => {
+					console.log(`"${task}" update`, payload);
+				});
+
+				worker.onEnd((payload) => {
+					console.log(`"${task}" end`, payload);
+				});
+
+				worker.onStop((payload) => {
+					console.log(`"${task}" stopped`, payload);
+				});
+
+				worker.onError((err) => {
+					console.log(`"${task}" error`, err);
+				});
+
+				worker.execute();
+			})
+			.catch(function(err){
+				console.log(`"${task}" catched`, err);
+			});
+		})
+	}
+</script>
+</body>
+</html>

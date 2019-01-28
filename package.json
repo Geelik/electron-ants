@@ -1,0 +1,21 @@
+{
+  "name": "electron-ants",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "start": "electron ./tests/example/example.js",
+    "test": "ava tests/spec.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "ava": "^1.0.1",
+    "electron": "^4.0.0",
+    "spectron": "^5.0.0"
+  },
+  "dependencies": {
+    "dot-prop": "^4.2.0",
+    "fs-extra": "^7.0.1",
+    "merge-options": "^1.0.1"
+  }
+}
